@@ -52,8 +52,8 @@ describe('Basic user flow for Website', () => {
     await button.click();
     // Once you have the innerText property, use innerText['_remoteObject'].value to get the text value of it
     const buttonProperty = await button.getProperty('innerHTML');
-    const innerHTML = await buttonProperty.jsonValue();
-    expect(innerHTML).toBe('Remove from Cart');
+    const buttonInnerHTML = await buttonProperty.jsonValue();
+    expect(buttonInnerHTML).toBe('Remove from Cart');
   }, 2500);
 
   // Check to make sure that after clicking "Add to Cart" on every <product-item> that the Cart
@@ -62,17 +62,32 @@ describe('Basic user flow for Website', () => {
     console.log('Checking number of items in cart on screen...');
     // TODO - Step 3
     // Query select all of the <product-item> elements, then for every single product element
+    const prodItems = await page.$$('product-item');
     // get the shadowRoot and query select the button inside, and click on it.
+    let productCount = 0;
+    for (let prodItem of prodItems) {
+      const prodShadowRoot = await prodItem.getProperty('shadowRoot');
+      const button = await prodShadowRoot.$('button');
+      await button.click();
+      productCount++;
+    }
     // Check to see if the innerText of #cart-count is 20
+    const count = await page.$eval('#cart-count', cartCount => cartCount.innerHTML);
+    expect(count).toBe(productCount);
   }, 10000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
   it('Checking number of items in cart on screen after reload', async () => {
     console.log('Checking number of items in cart on screen after reload...');
     // TODO - Step 4
+    const originalCount = await page.$eval('#cart-count', cartCount => cartCount.innerHTML);
     // Reload the page, then select all of the <product-item> elements, and check every
     // element to make sure that all of their buttons say "Remove from Cart".
+    await page.reload();
+    // await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
     // Also check to make sure that #cart-count is still 20
+    const newCount = await page.$eval('#cart-count', cartCount => cartCount.innerHTML);
+    expect(newCount).toBe(originalCount);
   }, 10000);
 
   // Check to make sure that the cart in localStorage is what you expect
