@@ -8,4 +8,10 @@ I would fit my automated tests in a GitHub action that gets triggered after a pu
 
 No. end to end testing is used for the correct user flow and routing of the page; it is not focused on correctness of functions—that is the job for unit tests.
 
-### 3.
+### 3. Would you use a unit test to test the “message” feature of a messaging application? Why or why not? For this question, assume the “message” feature allows a user to write and send a message to another user.
+
+No. This feature is too large and requires the utilization of multiple components that, if done with unit tests, there would be too many functionalities "mocked" in the unit test, essentially making the test test for something too obviously functional. 
+
+### 4. Would you use a unit test to test the “max message length” feature of a messaging application? Why or why not? For this question, assume the “max message length” feature prevents the user from typing more than 80 characters.
+
+Yes. This feature is most likely implemented with a function that takes in an input and returns a boolean. Else, it might be just a checker within a function. Regardless, this feature is small enough to fit inside a single component where there doesn't require any communication between multiple components that unit tests caged within the component that checks for the max characters can test for correctness.
