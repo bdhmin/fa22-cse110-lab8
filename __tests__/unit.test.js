@@ -12,17 +12,17 @@ test('matches an SF phone number', () => {
 
 // True match
 test('matches an SD phone number', () => {
-  expect(isPhoneNumber('858-521-8622')).toBe(true);
+  expect(isPhoneNumber('858-231-4124')).toBe(true);
 })
 
 // False match
-test('falsely matches a non-phone number', () => {
-  expect(isPhoneNumber('000-000-0000')).toBe(false);
+test('does not matche a non-phone number', () => {
+  expect(isPhoneNumber('asdf')).toBe(false);
 })
 
 // False match
-test('falsely doesn\'t match an unsplit phone number', () => {
-  expect(isPhoneNumber('4155218666')).toBe(true);
+test('doesn\'t match an unsplit phone number', () => {
+  expect(isPhoneNumber('4155218666')).toBe(false);
 })
 
 /** isEmail() tests */
@@ -33,82 +33,82 @@ test('matches gmail', () => {
 })
 
 // True match
-test('doesn\'t match non-email', () => {
-  expect(isEmail('858-521-8622')).toBe(false);
+test('matches ucsd email', () => {
+  expect(isEmail('bdmin@ucsd.edu')).toBe(true);
 })
 
 // False match
-test('falsely matches a non-email', () => {
-  expect(isEmail('im@yourhouse.rn')).toBe(false);
+test('does not matche a non-email', () => {
+  expect(isEmail('bryanmin.me')).toBe(false);
 })
 
 // False match
-test('falsely doesn\'t match an email', () => {
-  expect(isEmail('bdmin (at) ucsd (dot) com')).toBe(true);
+test('does not match a worded email', () => {
+  expect(isEmail('bdmin (at) ucsd (dot) com')).toBe(false);
 })
 
 /** isStrongPassword() tests */
 
 // True match
 test('matches a strong password', () => {
-  expect(isEmail('password4life')).toBe(true);
+  expect(isStrongPassword('password4life')).toBe(true);
 })
 
 // True match
-test('doesn\'t match a weak passowrd', () => {
-  expect(isEmail('hi')).toBe(false);
+test('matches a starred strong passowrd', () => {
+  expect(isStrongPassword('fasofpn13ie')).toBe(true);
 })
 
 // False match
-test('falsely matches a weak password', () => {
-  expect(isEmail('aaaa')).toBe(false);
+test('does not match a weak password', () => {
+  expect(isStrongPassword('abc')).toBe(false);
 })
 
 // False match
-test('falsely doesn\'t a match strong password', () => {
-  expect(isEmail('th1s1sastr0ngpwEvenThoughItsLong')).toBe(true);
+test('does not match an invalid password', () => {
+  expect(isStrongPassword('fsdoiajf+@!)!@$')).toBe(false);
 })
 
 /** isDate() tests */
 
 // True match
 test('matches a date', () => {
-  expect(isEmail('11/18/2000')).toBe(true);
+  expect(isDate('11/18/2000')).toBe(true);
 })
 
 // True match
-test('doesn\'t match a wrong date', () => {
-  expect(isEmail('Friday :D')).toBe(false);
+test('matches another date', () => {
+  expect(isDate('01/01/2023')).toBe(true);
 })
 
 // False match
-test('falsely matches a wrong date', () => {
-  expect(isEmail('13/13/1313')).toBe(false);
+test('does not match a wrong date', () => {
+  expect(isDate('13/13/20000')).toBe(false);
 })
 
 // False match
-test('falsely doesn\'t match a date', () => {
-  expect(isEmail('Nov 18, 2000')).toBe(true);
+test('does not match a wrongly formatted date', () => {
+  expect(isDate('Nov 18, 2000')).toBe(false);
 })
 
 /** isHexColor() tests */
 
 // True match
 test('matches a hexcolor', () => {
-  expect(isEmail('FFFFFF')).toBe(true);
+  expect(isHexColor('FFFFFF')).toBe(true);
 })
 
 // True match
-test('doesn\'t match a wrong hexcolor', () => {
-  expect(isEmail('GGGGGG')).toBe(false);
+test('matches a 3 digit hexcolor', () => {
+  expect(isHexColor('#AAA')).toBe(true);
 })
 
 // False match
-test('falsely matches a non-hexcolor', () => {
-  expect(isEmail('256')).toBe(false);
+test('does not match a non-hexcolor', () => {
+  expect(isHexColor('rgb(0,245,126)')).toBe(false);
 })
 
 // False match
-test('falsely doesn\'t match a hexcolor', () => {
-  expect(isEmail('color: #FFFFFF')).toBe(true);
+test('does not match a CSS color line', () => {
+  expect(isHexColor('color: #FFFFFF')).toBe(false);
 })
